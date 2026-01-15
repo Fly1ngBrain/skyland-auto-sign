@@ -1,9 +1,0 @@
-2024-05-25 13:16:10,503 - root - INFO - =========starting==========
-2024-05-25 13:16:42,266 - root - INFO - POST https://as.hypergryph.com/user/oauth2/v2/grant - 200 - {"data": {"uid": "1298167306256", "code": "*****"}, "msg": "OK", "status": 0, "type": "A"}
-2024-05-25 13:16:42,557 - root - INFO - POST https://zonai.skland.com/api/v1/user/auth/generate_cred_by_code - 200 - {"code": 0, "message": "OK", "timestamp": "1716614203", "data": {"cred": "*****", "userId": "475006", "token": "*****"}}
-2024-05-25 13:16:42,559 - root - INFO - 算出签名: 305493a2bf26038882355af418dd8026
-2024-05-25 13:16:42,776 - root - INFO - GET https://zonai.skland.com/api/v1/game/player/binding - 200 - {"code": 0, "message": "OK", "timestamp": "1716614203", "data": {"list": [{"appCode": "arknights", "appName": "明日方舟", "bindingList": [{"uid": "893357221", "isOfficial": true, "isDefault": true, "channelMasterId": "1", "channelName": "官服", "nickName": "miracle#1448", "isDelete": false}], "defaultUid": "893357221"}]}}
-2024-05-25 13:16:42,777 - root - INFO - 算出签名: f17990a83cf3341560a0d9f23a6ae425
-2024-05-25 13:16:43,032 - root - INFO - POST https://zonai.skland.com/api/v1/game/attendance - 200 - {"code": 0, "message": "OK", "timestamp": "1716614203", "data": {"ts": "1716614203", "awards": [{"resource": {"id": "2002", "type": "CARD_EXP", "name": "初级作战记录", "rarity": 2}, "count": 3, "type": "daily"}], "resourceInfoMap": {"2002": {"id": "2002", "type": "CARD_EXP", "name": "初级作战记录", "rarity": 2}}}}
-2024-05-25 13:16:43,032 - root - INFO - complete with 32528.4206867218 ms
-2024-05-25 13:16:43,032 - root - INFO - ===========ending============
