@@ -13,6 +13,9 @@ import requests
 
 from SecuritySm import get_d_id
 
+# ServerChan推送配置
+SERVERCHAN_SENDKEY = os.environ.get('SERVERCHAN_SENDKEY')  # 推送密钥，环境变量配置
+
 token_save_name = 'TOKEN.txt'
 app_code = '4ca99fa6b56cc2ba'
 token_env = os.environ.get('TOKEN')
@@ -56,6 +59,32 @@ token_password_url = "https://as.hypergryph.com/user/auth/v1/token_by_phone_pass
 grant_code_url = "https://as.hypergryph.com/user/oauth2/v2/grant"
 # 使用认证代码获得cred
 cred_code_url = "https://zonai.skland.com/web/v1/user/auth/generate_cred_by_code"
+
+
+def send_serverchan_notification(title, desp, tags=None):
+    """
+    发送ServerChan推送通知
+    :param title: 推送标题
+    :param desp: 推送内容
+    :param tags: 标签，可选
+    """
+    if not SERVERCHAN_SENDKEY:
+        logging.warning("未配置SERVERCHAN_SENDKEY，跳过推送")
+        return
+    
+    try:
+        from serverchan_sdk import sc_send
+        params = {}
+        if tags:
+            params['tags'] = tags
+        
+        response = sc_send(SERVERCHAN_SENDKEY, title, desp, params)
+        logging.info(f"ServerChan推送结果: {response}")
+        return response
+    except ImportError:
+        logging.error("未安装serverchan-sdk，请运行: pip install serverchan-sdk")
+    except Exception as e:
+        logging.error(f"推送失败: {str(e)}")
 
 
 def config_logger():
@@ -315,12 +344,29 @@ def input_for_token():
 
 def start():
     token = init_token()
+    errors = []  # 记录所有错误信息
+    
     for i in token:
         try:
             do_sign(get_cred_by_token(i))
         except Exception as ex:
-            print(f'签到失败，原因：{str(ex)}')
+            error_msg = f'签到失败，原因：{str(ex)}'
+            print(error_msg)
             logging.error('', exc_info=ex)
+            errors.append(error_msg)
+    
+    # 如果有错误发生，发送推送通知
+    if errors:
+        try:
+            error_detail = "\n".join(errors)
+            send_serverchan_notification(
+                title="森空岛自动签到 - 错误通知",
+                desp=f"签到过程中发生错误：\n\n{error_detail}\n\n请检查日志或重新运行程序。",
+                tags="服务器报警"
+            )
+        except Exception as push_ex:
+            logging.error(f"推送通知失败: {str(push_ex)}")
+    
     print("签到完成！")
 
 

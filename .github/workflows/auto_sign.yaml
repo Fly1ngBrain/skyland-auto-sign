@@ -24,6 +24,8 @@ jobs:
           # PHONE: ${{ secrets.PHONE }}
           # PASSWORD: ${{ secrets.PASSWORD }}
           TOKEN: ${{ secrets.TOKEN }}
+          # ServerChan推送配置（可选）
+          SERVERCHAN_SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}
         run: |
           python skyland.py
           
